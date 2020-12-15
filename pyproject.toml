@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.2.0", "wheel", "setuptools_scm[toml]>=3.4.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unpin"
+readme = "ReadMe.md"
+description = "A tool removing harmful versions pinnings from prebuilt wheels."
+authors = [{name = "KOLANICH"}]
+classifiers = [
+	"Development Status :: 4 - Beta",
+	"Environment :: Other Environment",
+	"Intended Audience :: Developers",
+	"License :: Public Domain",
+	"Operating System :: OS Independent",
+	"Programming Language :: Python",
+	"Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3 :: Only",
+	"Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["unpin"]
+license = {text = "Unlicense"}
+requires-python = ">=3.4"
+dynamic = ["version"]
+dependencies = [
+	"packaging", # @ git+https://github.com/pypa/packaging.git
+	"distlib" # @ git+https://github.com/pypa/distlib.git
+]
+[project.optional-dependencies]
+wheel = [
+	"libzip", # @ git+https://github.com/KOLANICH-libs/libzip.py.git
+]
+
+[project.scripts]
+unpin = "unpin.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/KOLANICH-tools/unpin.py"
+
+[tool.setuptools]
+zip-safe = true
+
+[tool.setuptools.packages.find]
+include = ["unpin", "unpin.*"]
+
+[tool.setuptools_scm]
