@@ -1,0 +1,2 @@
+https://github.com/KOLANICH-libs/libzip.py
+https://github.com/pypa/distlib.git
