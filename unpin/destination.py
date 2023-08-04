@@ -1,4 +1,5 @@
 import typing
+from zipfile import ZipFile
 from pathlib import Path, PurePath
 
 from .util import PathsPair
@@ -47,35 +48,16 @@ class DirDestinationBackend(DestinationBackend):
 class ArchiveDestinationBackend(DestinationBackend):
 	__slots__ = ()
 
-	Archive = None
-	OpenFlags = None
-	Source = None
-
-	def __init__(self):
-		if self.__class__.Archive is None:
-			from libzip.Archive import Archive
-			from libzip.enums import OpenFlags
-			from libzip.Source import Source
-
-			self.__class__.Archive = Archive
-			self.__class__.OpenFlags = OpenFlags
-			self.__class__.Source = Source
-
 	def iterPaths(self, path: Path) -> typing.Iterator[PurePath]:
-		with self.__class__.Archive(path, self.__class__.OpenFlags.read_only | self.__class__.OpenFlags.check) as a:
-			for el in a:
-				yield PurePath(el.pathName)
+		with ZipFile(path) as a:
+			for name in a.namelist():
+				yield PurePath(name)
 
 	def getFileText(self, pp: PathsPair) -> str:
-		with self.__class__.Archive(pp.root, self.__class__.OpenFlags.read_only | self.__class__.OpenFlags.check) as a:
-			f = a[pp.internal]
-			appConstsText = bytes(f.stat.originalSize)
-			with f as of:
-				of.read(appConstsText)
+		with ZipFile(pp.root) as a:
+			appConstsText = a.read(str(pp.internal))
 			return appConstsText.decode("utf-8")
 
 	def writeBack(self, pp: PathsPair, source: str) -> None:
-		with self.__class__.Archive(pp.root, self.__class__.OpenFlags.read_write | self.__class__.OpenFlags.check) as a:
-			f = a[pp.internal]
-			s = self.__class__.Source.make(source.encode("utf-8"))
-			f.replace(s)
+		with ZipFile(pp.root, 'a') as dst:
+			dst.writestr(str(pp.internal), source)
