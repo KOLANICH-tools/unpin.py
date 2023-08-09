@@ -87,6 +87,7 @@ class PatchedCondition:
 def parseVersionConstrs(versionConstrs: str) -> SpecifierSet:
 	if versionConstrs and versionConstrs[0] == "(" and versionConstrs[-1] == ")":
 		versionConstrs = versionConstrs[1:-1].strip()
+	if versionConstrs:
 		return SpecifierSet(versionConstrs, prereleases=True)
 
 	return SpecifierSet("")
