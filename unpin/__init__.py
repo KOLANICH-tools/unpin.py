@@ -11,6 +11,10 @@ from .util import PathsPair
 
 # pylint:disable=too-few-public-methods
 
+from warnings import warn
+
+warn("We have moved from M$ GitHub to https://codeberg.org/KOLANICH-tools/unpin.py , read why on https://codeberg.org/KOLANICH/Fuck-GuanTEEnomo .")
+
 
 class ParsedAST:
 	__slots__ = ("ast", "pp")

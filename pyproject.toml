@@ -28,14 +28,14 @@ dependencies = [
 ]
 [project.optional-dependencies]
 wheel = [
-	"libzip", # @ git+https://github.com/KOLANICH-libs/libzip.py.git
+	"libzip", # @ git+https://codeberg.org/KOLANICH-libs/libzip.py.git
 ]
 
 [project.scripts]
 unpin = "unpin.__main__:main"
 
 [project.urls]
-Homepage = "https://github.com/KOLANICH-tools/unpin.py"
+Homepage = "https://codeberg.org/KOLANICH-tools/unpin.py"
 
 [tool.setuptools]
 zip-safe = true
